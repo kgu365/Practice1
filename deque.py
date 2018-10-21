@@ -136,12 +136,10 @@ class Deque:
 			return i_list
 		def helper(self, root):
 			while root:
-				i_list.append(root)
+				i_list.append(root.value)
 				root = root.next
 
-		# helper(self,self.front)
-		for i in i_list:
-			print(i.value)
+		helper(self,self.front)
 		return i_list
 		
 
