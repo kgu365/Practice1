@@ -13,13 +13,10 @@ class SquareTree:
 			return True
 
 		else:
-			return False	
-			
+			return False
 	# Darek - this method should be constant time
 	def get_size(self):
-		return self.size
-		
-		
+		return self.size	
 
 	def add(self, p):
 
@@ -36,7 +33,7 @@ class SquareTree:
 					if root.right is None:
 						root.right = p
 						self.size += 1	
-
+						
 					else: 
 						helper(self, root.right, p, level + 1) 
 
@@ -54,7 +51,6 @@ class SquareTree:
 						root.right = p
 						self.size += 1
 						
-
 					else:
 						helper(self, root.right, p, level + 1)
 
@@ -62,7 +58,7 @@ class SquareTree:
 					if root.left is None:
 						root.left = p
 						self.size += 1
-
+						
 					else: 
 						helper(self, root.left, p, level + 1)				
 		helper(self, self.root, p, 1)
@@ -94,7 +90,6 @@ class SquareTree:
 					if root.right is None:
 						return
 						
-
 					else: 
 						helper(self, root.right, p, level + 1) 
 
@@ -127,9 +122,7 @@ class SquareTree:
 
 					else: 
 						print("recursion")
-						helper(self, root.left, p, level + 1)	
-			
-			
+						helper(self, root.left, p, level + 1)			
 
 		helper(self, self.root, p, 1)
 		print(output)
@@ -147,100 +140,52 @@ class SquareTree:
 		if rectangle.valid_point(self.root):
 			vp_list.append(self.root)
 
+		def helper(self, root, level, x):
+			if root == self.root:
+				c = Rectangle(0, self.root.x, 0, 1)
+				
+				if rectangle.r_intersects(c) and root.left:
+					helper(self, self.root.left, level + 1, c)
 
-		c = Rectangle(rectangle.xmin,self.root.x,rectangle.ymin,rectangle.ymax)
-		d = Rectangle(self.root.x,rectangle.xmax,rectangle.ymin,rectangle.ymax)
-
-		def helperleft(self, root, level, c):
-
-			if level % 2 != 0:
-
-				if c.valid_point(root):
+				d = Rectangle(self.root.x, 1, 0, 1)
+				if rectangle.r_intersects(d) and root.right:
+					helper(self, self.root.right, level + 1, d)
+			
+			elif level % 2 != 0:
+				if rectangle.valid_point(root):
 					vp_list.append(root)
 
-					if root.left:
-						x = c
-						x = Rectangle(c.xmin,c.xmax,c.ymin,c.ymax)
-						print(x)
-						print(c)
-						x.ymax = root.y
-						print(x)
-						print(c)
-						helperleft(self, root.left, level + 1, x)	
-					if root.right:
-						x = c
-						x = Rectangle(c.xmin, c.xmax, c.ymin, c.ymax)
-						x.ymin = root.y	
-						
-						helperright(self, root.right, level + 1, x)
-				else:
-					return		
+				c = Rectangle(x.xmin, x.xmax, x.ymin, root.y)
+				if rectangle.r_intersects(c) and root.left:
+					
+					helper(self, root.left, level + 1, c)
 
-			else:
+				d = Rectangle(x.xmin, x.xmax, root.y, x.ymax)
+				if rectangle.r_intersects(d) and root.right:
+					
+					helper(self, root.right, level + 1, d)
 
-				if c.valid_point(root):
+			else: 
+				
+				if rectangle.valid_point(root):
 					vp_list.append(root)
 
-					if root.left:
-						x = c
-						x = Rectangle(c.xmin,c.xmax,c.ymin,c.ymax)
-						x.xmax = root.x
-						helperleft(self, root.left, level + 1, x)	
-					if root.right:
-						x = c
-						x = Rectangle(c.xmin,c.xmax,c.ymin,c.ymax)
-						x.xmin = root.x	
-						helperright(self, root.right, level + 1, x)
-				else:
-					return	
+				c = Rectangle(x.xmin, root.x, x.ymin, x.ymax)
+				
+				if rectangle.r_intersects(c) and root.left:
+					
+					helper(self, root.left, level + 1, c)
 
-		def helperright(self, root, level, d):
-			if level % 2 != 0:
+				d = Rectangle(root.x, x.xmax, x.ymin, x.ymax)
+				
+				if rectangle.r_intersects(d) and root.right:
+					
+					helper(self, root.right, level + 1, d)	
 
-				if d.valid_point(root):
-					vp_list.append(root)
 
-					if root.left:
-						y = d
-						y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-						y.ymax = root.y
-						helperleft(self, root.left, level + 1, y)	
-					if root.right:
-						y = d
-						y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-						y.ymin = root.y	
-						helperright(self, root.right, level + 1, y)
-
-			else:
-
-				if d.valid_point(root):
-					vp_list.append(root)
-
-					if root.left:
-						y = d
-						y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-						y.xmax = root.x
-						helperleft(self, root.left, level + 1, y)	
-					if root.right:
-						y = d
-						y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-						y.xmin = root.x	
-
-						helperright(self, root.right, level + 1, y)
-				else:
-					return					
-
-		#left x becomes xmax changes
-		#right xmin changes
-		#left y becomes ymax
-		#right y becomes ymin 
-		helperleft(self, self.root.left, 1, c)
-		helperright(self, self.root.right, 1, d)
-
-		# print(vp_list)
-		# print(len(vp_list))
-		# for i in vp_list:
-		# 	print (i.x,i.y)
+		helper(self, self.root, 0, Rectangle(0,1,0,1))
+		for i in vp_list:
+			print (i.x,i.y)
 		return vp_list				
 
 		
@@ -257,14 +202,22 @@ class SquareTree:
 		c = Rectangle(0,self.root.x,0,1)
 		d = Rectangle(self.root.x,1,0,1)
 		
-		def helperleft(self, root, level, c):
+		def helper(self, root, level, c):
 			nonlocal cur_min
 			nonlocal output
 
+			if root == self.root:
+				x = Rectangle(0, self.root.x, 0, 1)
+				if root.left:
+					helper(self, self.root.left, level + 1, c)
+
+				y = Rectangle(self.root.x, 1, 0, 1)
+				if root.right:
+					helper(self, self.root.right, level + 1, d)
+
 			if level % 2 != 0:
 
-				x = Rectangle(c.xmin, c.xmax, c.ymin, c.ymax)
-				x.ymin = root.y	
+				x = Rectangle(c.xmin, c.xmax, root.y, c.ymax)
 				if cur_min > x.distance_to_point(p):
 					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
 					distance = math.sqrt(s_distance)
@@ -272,14 +225,9 @@ class SquareTree:
 						cur_min = distance
 						output = root
 					if root.right:
-						
-						helperleft(self, root.right, level + 1, x)
-
-
-				
-				y = Rectangle(c.xmin,c.xmax,c.ymin,c.ymax)
-				y.ymax = root.y
-				
+						helper(self, root.right, level + 1, x)
+			
+				y = Rectangle(c.xmin,c.xmax,c.ymin,root.y)
 				if cur_min > y.distance_to_point(p):
 					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
 					distance = math.sqrt(s_distance)
@@ -287,25 +235,21 @@ class SquareTree:
 						cur_min = distance
 						output = root
 					if root.left:	
-						helperleft(self, root.left, level + 1, y)
+						helper(self, root.left, level + 1, y)
 			else:
 
-				x = Rectangle(c.xmin, c.xmax, c.ymin, c.ymax)
-				x.xmin = root.x	
+				x = Rectangle(root.x, c.xmax, c.ymin, c.ymax)
 				if cur_min > x.distance_to_point(p):
 					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
 					distance = math.sqrt(s_distance)
 					if cur_min > distance:
 						cur_min = distance
 						output = root
-					if root.right:
-						
-						helperleft(self, root.right, level + 1, x)
+					if root.right:	
+						helper(self, root.right, level + 1, x)
 
 				
-				y = Rectangle(c.xmin,c.xmax,c.ymin,c.ymax)
-				x.xmax = root.x
-				
+				y = Rectangle(c.xmin,root.x,c.ymin,c.ymax)
 				if cur_min > y.distance_to_point(p):
 					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
 					distance = math.sqrt(s_distance)
@@ -313,78 +257,14 @@ class SquareTree:
 						cur_min = distance
 						output = root
 					if root.left:
-						
-						helperleft(self, root.left, level + 1, y)	
-
-
-		def helperright(self, root, level, d):
-			nonlocal cur_min
-			nonlocal output
-
-			if level % 2 != 0:
-
-				x = Rectangle(d.xmin, d.xmax, d.ymin, d.ymax)
-				x.ymin = root.y	
-				if cur_min > x.distance_to_point(p):
-					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
-					distance = math.sqrt(s_distance)
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.right:
-						
-						helperright(self, root.right, level + 1, x)
-
-
-				
-				y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-				y.ymax = root.y
-				
-				if cur_min > y.distance_to_point(p):
-					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
-					distance = math.sqrt(s_distance)
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.left:	
-						helperright(self, root.left, level + 1, y)
-			else:
-
-				x = Rectangle(d.xmin, d.xmax, d.ymin, d.ymax)
-				x.xmin = root.x	
-				if cur_min > x.distance_to_point(p):
-					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
-					distance = math.sqrt(s_distance)
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.right:
-						
-						helperright(self, root.right, level + 1, x)
-
-				
-				y = Rectangle(d.xmin,d.xmax,d.ymin,d.ymax)
-				x.xmax = root.x
-				
-				if cur_min > y.distance_to_point(p):
-					s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
-					distance = math.sqrt(s_distance)
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.left:
-						
-						helperright(self, root.left, level + 1, y)
-
-
-		helperleft(self, self.root.left, 1, c)
-		helperright(self, self.root.right, 1, d)		
+						helper(self, root.left, level + 1, y)	
+	
+		helper(self, self.root, 0, Rectangle(0,1,0,1) )
 		return output
 
 
 if __name__ == '__main__':
 	t = SquareTree()
-	x = Point(0.7, 0.1)
 	# print(t.nearest(x))
 	#isempty
 	print("is_empty tests and add")
@@ -394,7 +274,7 @@ if __name__ == '__main__':
 		print("Failed")	
 	# Darek - can you make this into a for loop?
 	a = Point(.7, .2)
-	b = Point(0, 4)
+	b = Point(0.5, 0.4)
 	c = Point(.2, .3)
 	d = Point(.4, .7)
 	e = Point(.9, .6)
@@ -450,30 +330,15 @@ if __name__ == '__main__':
 
 	#range
 	print("range tests")
-	s_rectangle = Rectangle(0,50,0,50)
-	print(len(t.range(s_rectangle)))
+	print(t.get_size())
+	print("Test 1")
+	s_rectangle = Rectangle(0.1,0.6,0,1)
+	print(t.inorder())
+	t.range(s_rectangle)
 
-
-	if (len(t.range(s_rectangle))) == 7:
-		print("Passed")
-	else:
-		print("Failed")	
-
-	for i in t.range(s_rectangle):
-		print(str(i))	
-
-	for i in range(6,100):
-		j = Point(i,i)
-		t.add(j)
-
-		
-	print(len(t.range(s_rectangle)))
-	if (len(t.range(s_rectangle))) == 52:
-		print("Passed")
-	else:
-		print("Failed")	
-	for i in t.range(s_rectangle):
-		print(str(i))	
+	print("Test 2")
+	a_rectangle = Rectangle(0.5, 0.9,0.5,1)
+	t.range(a_rectangle)
 	
 	# print(t.range(s_rectangle)) #added 6 elements one is repeated so pointset holds 5 - point b is out of range so vp_list holds 4 objects
 	

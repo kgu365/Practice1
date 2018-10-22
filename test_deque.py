@@ -47,10 +47,18 @@ class TestDequeMethods(unittest.TestCase):
    def test_removeLast(self):
       x = Deque()
       x.addFirst(1)
+      x.addFirst(0)
       x.addLast(2)
-      self.assertTrue(x.get_size() == 2)
+      x.addLast(3)
+      self.assertEqual(x.get_size(), 4)
       item = x.removeLast()
-      self.assertTrue(item == 2)
+      self.assertEqual(item, 3)
+      item = x.removeLast()
+      self.assertEqual(item, 2)
+      item = x.removeLast()
+      self.assertEqual(item, 1)
+      item = x.removeLast()
+      self.assertEqual(item, 0)
 
    def test_removeEmpty(self):
       x = Deque()
@@ -65,7 +73,7 @@ class TestDequeMethods(unittest.TestCase):
       it = x.iterator()
       num = 1
       for x in it:
-         self.assertTrue(num == x)
+         self.assertEqual(num, x)
          num += 1
 
 if __name__ == '__main__':
