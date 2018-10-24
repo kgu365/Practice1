@@ -20,14 +20,10 @@ class SquareTree:
 		return self.size	
 
 	def add(self, p):
-
 		if self.root is None:
 			self.root = p
 			self.size += 1
-
-		# Darek - Reduce the number of conditionals here. 
 		def helper(self, root, rootval, pval, level):
-			
 			if pval > rootval:
 				if root.right is None:
 					root.right = p
@@ -37,8 +33,7 @@ class SquareTree:
 						helper(self, root.right,root.right.y, p.y, level + 1)
 					else:
 						helper(self, root.right, root.right.x, p.x, level + 1)	 
-
-			if pval < root.x:
+			if pval < rootval:
 				if root.left is None:
 					root.left = p
 					self.size += 1		
@@ -59,23 +54,15 @@ class SquareTree:
 
 		helper(self, self.root)		
 
-
-	# Darek - Reduce the number of conditionals.
-	# Darek - You have lots of duplicate code here. 
-	# Darek - Find a way to combine the outermost if / else into 
-	# Darek - one block of code. Specifically the level % 2 can 
-	# Darek - be moved to before.
 	def contains(self, p):
 		if self.root == p:
 			return True
 		output = [0]	
 		def helper(self, root, rootval, pval, level):
-			
 			if root == p:
 				print(root.x,root.y)
 				output[0] = 1
 				return
-
 			if pval > rootval:
 				if root.right is None:
 					return		
@@ -84,7 +71,6 @@ class SquareTree:
 						helper(self, root.right, root.right.y, p.y, level + 1)
 					else:
 						helper(self, root.right, root.right.x, p.x, level + 1)				 
-
 			if pval < rootval:
 				if root.left is None:
 					return 		
@@ -93,7 +79,6 @@ class SquareTree:
 						helper(self, root.left, root.left.y, p.y, level + 1)
 					else:
 						helper(self, root.left, root.left.x, p.x, level + 1)			
-
 		helper(self, self.root, self.root.x, p.x, 1)
 		print(output)
 		if output[0] == 1:
@@ -101,120 +86,67 @@ class SquareTree:
 		else:
 			return False	
 
-	# Darek - Reduce the number of conditionals.
-	# Darek - You have lots of duplicate code here. 
-	# Darek - Find a way to combine the outermost if / else into 
-	# Darek - one block of code. Specifically the level % 2 can 
-	# Darek - be moved to before.
 	def range(self, rectangle):
-		# use rectangle valid point to get list of points in the rectangle range
 		vp_list = []
-		if rectangle.valid_point(self.root):
-			vp_list.append(self.root)
-
 		def helper(self, root, level, x):
-			if root == self.root:
-				c = Rectangle(0, self.root.x, 0, 1)
-				
+			if rectangle.valid_point(root):
+				vp_list.append(root)
+			if level % 2 != 0:
+				c = Rectangle(x.xmin, x.xmax, x.ymin, root.y)
+				d = Rectangle(x.xmin, x.xmax, root.y, x.ymax)
 				if rectangle.r_intersects(c) and root.left:
-					helper(self, self.root.left, level + 1, c)
-
-				d = Rectangle(self.root.x, 1, 0, 1)
+					helper(self, root.left, level + 1, c)
 				if rectangle.r_intersects(d) and root.right:
-					helper(self, self.root.right, level + 1, d)
-			
+					helper(self, root.right, level + 1, d)
 			else:
-				if rectangle.valid_point(root):
-					vp_list.append(root)
-
-				c = Rectangle(x.xmin, x.xmax, x.ymin, x.ymax)
-				d = Rectangle(x.xmin, x.xmax, x.ymin, x.ymax)
-				if level % 2 != 0:
-					c.ymax = root.y
-					d.ymin = root.y
-					if rectangle.r_intersects(c) and root.left:
-						helper(self, root.left, level + 1, c)
-					if rectangle.r_intersects(d) and root.right:
-						helper(self, root.right, level + 1, d)
-				else:
-					c.xmax = root.x
-					d.xmin = root.x
-					if rectangle.r_intersects(c) and root.left:
-						helper(self, root.left, level + 1, c)
-					if rectangle.r_intersects(d) and root.right:
-						helper(self, root.right, level + 1, d)	
-
+				c = Rectangle(x.xmin, root.x, x.ymin, x.ymax)
+				d = Rectangle(root.x, x.xmax, x.ymin, x.ymax)
+				if rectangle.r_intersects(c) and root.left:
+					helper(self, root.left, level + 1, c)
+				if rectangle.r_intersects(d) and root.right:
+					helper(self, root.right, level + 1, d)	
 		helper(self, self.root, 0, Rectangle(0,1,0,1))
 		for i in vp_list:
 			print (i.x,i.y)
-		return vp_list				
+		return vp_list					
 
-		
-	# Darek - Reduce the number of conditionals.
-	# Darek - You have lots of duplicate code here. 
-	# Darek - Find a way to combine the outermost if / else into 
-	# Darek - one block of code. Specifically the level % 2 can 
-	# Darek - be moved to before.
 	def nearest(self, p):
-
-		s_distance = ((p.x - self.root.x) ** 2) + ((p.y - self.root.y) ** 2)	
-		distance = math.sqrt(s_distance)
-		cur_min = distance
-		output = self.root
-		c = Rectangle(0,self.root.x,0,1)
-		d = Rectangle(self.root.x,1,0,1)
-		
+		cur_min = 1000
+		output = None
 		def helper(self, root, level, c):
 			nonlocal cur_min
 			nonlocal output
-
-			if root == self.root:
-				x = Rectangle(0, self.root.x, 0, 1)
-				if root.left:
-					helper(self, self.root.left, level + 1, c)
-
-				y = Rectangle(self.root.x, 1, 0, 1)
-				if root.right:
-					helper(self, self.root.right, level + 1, d)
+			distance = math.sqrt(((p.x - root.x) ** 2) + ((p.y - root.y) ** 2))	
+			if level % 2 != 0:
+				x = Rectangle(c.xmin, c.xmax, root.y, c.ymax)
+				if cur_min > x.distance_to_point(p):	
+					if cur_min > distance:
+						cur_min = distance
+						output = root
+					if root.right:
+						helper(self, root.right, level + 1, x)
+				y = Rectangle(c.xmin,c.xmax,c.ymin,root.y)
+				if cur_min > y.distance_to_point(p):
+					if cur_min > distance:
+						cur_min = distance
+						output = root
+					if root.left:	
+						helper(self, root.left, level + 1, y)
 			else:
-				s_distance = ((p.x - root.x) ** 2) + ((p.y - root.y) ** 2)
-				distance = math.sqrt(s_distance)	
-				if level % 2 != 0:
-					x = Rectangle(c.xmin, c.xmax, root.y, c.ymax)
-					if cur_min > x.distance_to_point(p):
-						
-						if cur_min > distance:
-							cur_min = distance
-							output = root
-						if root.right:
-							helper(self, root.right, level + 1, x)
-			
-					y = Rectangle(c.xmin,c.xmax,c.ymin,root.y)
-					if cur_min > y.distance_to_point(p):
-						
-						if cur_min > distance:
-							cur_min = distance
-							output = root
-						if root.left:	
-							helper(self, root.left, level + 1, y)
-				else:
-					x = Rectangle(root.x, c.xmax, c.ymin, c.ymax)
-					if cur_min > x.distance_to_point(p):
-						
-						if cur_min > distance:
-							cur_min = distance
-							output = root
-						if root.right:	
-							helper(self, root.right, level + 1, x)
-				
-					y = Rectangle(c.xmin,root.x,c.ymin,c.ymax)
-					if cur_min > y.distance_to_point(p):
-						if cur_min > distance:
-							cur_min = distance
-							output = root
-						if root.left:
-							helper(self, root.left, level + 1, y)	
-	
+				x = Rectangle(root.x, c.xmax, c.ymin, c.ymax)
+				if cur_min > x.distance_to_point(p):
+					if cur_min > distance:
+						cur_min = distance
+						output = root
+					if root.right:	
+						helper(self, root.right, level + 1, x)
+				y = Rectangle(c.xmin,root.x,c.ymin,c.ymax)
+				if cur_min > y.distance_to_point(p):
+					if cur_min > distance:
+						cur_min = distance
+						output = root
+					if root.left:
+						helper(self, root.left, level + 1, y)	
 		helper(self, self.root, 0, Rectangle(0,1,0,1) )
 		return output
 

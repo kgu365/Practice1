@@ -30,13 +30,6 @@ class TestMinHeap(unittest.TestCase):
 		x = MinHeap()
 		self.assertEqual(x.del_min(), None)
 
-			
-	# def test__swim(self):
-	# 	private
-	# def test__sink(self):
-	# 	private
-	# def test_insert(self):
-	# 	no return value
 	def test_swim_sink_del_min(self):
 		x = MinHeap()
 		x.insert(1)
@@ -71,49 +64,6 @@ class TestMinHeap(unittest.TestCase):
 
 	def test_runtime_insert(self):
 		print("insert runtime")
-		a = []
-		b = []
-		c = []
-		d = []
-		time_start = time.time()
-		for i in range(0,1000):
-			a.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,10000):
-			b.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,100000):
-			c.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,1000000):
-			d.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-
-
-
 		x = MinHeap()
 		for i in range(1, 1000):
 			x.insert(i)
@@ -126,33 +76,14 @@ class TestMinHeap(unittest.TestCase):
 		print(time_run)	
 
 		x = MinHeap()
-		for i in range(1, 10000):
+		for i in range(10, 1000000):
 			x.insert(i)
 		time_start = time.time()
-		x.insert(0)
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)	
-
-		x = MinHeap()
-		for i in range(1, 100000):
+		for i in range(9,0, -1):
 			x.insert(i)
-		time_start = time.time()
-		x.insert(0)
 		time_end = time.time()
 		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)	
-
-		x = MinHeap()
-		for i in range(1, 1000000):
-			x.insert(i)
-		time_start = time.time()
-		x.insert(0)
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
+		time_run *= 1000
 		o = time_run
 		print(time_run)	
 
@@ -160,48 +91,6 @@ class TestMinHeap(unittest.TestCase):
 
 	def test_runtime_del(self):
 		print ("del runtime")
-		a = []
-		b = []
-		c = []
-		d = []
-		time_start = time.time()
-		for i in range(0,1000):
-			a.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,10000):
-			b.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,100000):
-			c.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-		time_start = time.time()
-		for i in range(0,1000000):
-			d.append(i)
-
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)
-
-
-
 
 		x = MinHeap()
 		for i in range(1, 1000):
@@ -215,46 +104,18 @@ class TestMinHeap(unittest.TestCase):
 		print(time_run)	
 
 		x = MinHeap()
-		for i in range(1, 10000):
-			x.insert(i)
-		time_start = time.time()
-		x.del_min()
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)	
-
-		x = MinHeap()
-		for i in range(1, 100000):
-			x.insert(i)
-		time_start = time.time()
-		x.del_min()
-		time_end = time.time()
-		time_run = time_end - time_start
-		time_run *= 10000
-		print(time_run)	
-
-		x = MinHeap()
 		for i in range(1, 1000000):
 			x.insert(i)
 		time_start = time.time()
-		x.del_min()
+		for i in range(10):
+			x.del_min()
 		time_end = time.time()
 		time_run = time_end - time_start
-		time_run *= 10000
+		time_run *= 1000
 		o = time_run
 		print(time_run)	
 
 		self.assertTrue(o < (10*t))
-
-
-
-
-
-
-
-
-
 
 if __name__ == '__main__':
 	unittest.main()
