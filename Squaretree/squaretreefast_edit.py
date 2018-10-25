@@ -12,7 +12,6 @@ class SquareTree:
 	def is_empty(self):
 		if self.root is None:
 			return True
-
 		else:
 			return False
 
@@ -46,12 +45,10 @@ class SquareTree:
 		
 	def inorder(self):
 		def helper(self,root):
-
 			if root:
 				helper(self, root.left)
 				print((root.x, root.y))
 				helper(self, root.right)
-
 		helper(self, self.root)		
 
 	def contains(self, p):
@@ -94,17 +91,13 @@ class SquareTree:
 			if level % 2 != 0:
 				c = Rectangle(x.xmin, x.xmax, x.ymin, root.y)
 				d = Rectangle(x.xmin, x.xmax, root.y, x.ymax)
-				if rectangle.r_intersects(c) and root.left:
-					helper(self, root.left, level + 1, c)
-				if rectangle.r_intersects(d) and root.right:
-					helper(self, root.right, level + 1, d)
 			else:
 				c = Rectangle(x.xmin, root.x, x.ymin, x.ymax)
 				d = Rectangle(root.x, x.xmax, x.ymin, x.ymax)
-				if rectangle.r_intersects(c) and root.left:
-					helper(self, root.left, level + 1, c)
-				if rectangle.r_intersects(d) and root.right:
-					helper(self, root.right, level + 1, d)	
+			if rectangle.r_intersects(c) and root.left:
+				helper(self, root.left, level + 1, c)
+			if rectangle.r_intersects(d) and root.right:
+				helper(self, root.right, level + 1, d)
 		helper(self, self.root, 0, Rectangle(0,1,0,1))
 		for i in vp_list:
 			print (i.x,i.y)
@@ -116,37 +109,25 @@ class SquareTree:
 		def helper(self, root, level, c):
 			nonlocal cur_min
 			nonlocal output
-			distance = math.sqrt(((p.x - root.x) ** 2) + ((p.y - root.y) ** 2))	
+			distance = p.get_distance(root)
 			if level % 2 != 0:
 				x = Rectangle(c.xmin, c.xmax, root.y, c.ymax)
-				if cur_min > x.distance_to_point(p):	
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.right:
-						helper(self, root.right, level + 1, x)
-				y = Rectangle(c.xmin,c.xmax,c.ymin,root.y)
-				if cur_min > y.distance_to_point(p):
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.left:	
-						helper(self, root.left, level + 1, y)
+				y = Rectangle(c.xmin,c.xmax,c.ymin,root.y)	
 			else:
 				x = Rectangle(root.x, c.xmax, c.ymin, c.ymax)
-				if cur_min > x.distance_to_point(p):
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.right:	
-						helper(self, root.right, level + 1, x)
 				y = Rectangle(c.xmin,root.x,c.ymin,c.ymax)
-				if cur_min > y.distance_to_point(p):
-					if cur_min > distance:
-						cur_min = distance
-						output = root
-					if root.left:
-						helper(self, root.left, level + 1, y)	
+			if cur_min > x.distance_to_point(p):
+				if cur_min > distance:
+					cur_min = distance
+					output = root
+				if root.right:	
+					helper(self, root.right, level + 1, x)
+			if cur_min > y.distance_to_point(p):
+				if cur_min > distance:
+					cur_min = distance
+					output = root
+				if root.left:
+					helper(self, root.left, level + 1, y)	
 		helper(self, self.root, 0, Rectangle(0,1,0,1) )
 		return output
 
